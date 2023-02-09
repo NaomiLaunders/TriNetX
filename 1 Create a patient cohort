@@ -1,7 +1,6 @@
 rm(list = ls(all.names = TRUE))
 ####Libraries####
 library(tidyverse)
-library(tableone)
 
 ####Load initial patient file####
 
@@ -76,7 +75,7 @@ sd(NewSMI$AgeAtEnd)
 
 prop.table(table(NewSMI$sex))*100
 
-#Ethnicity/race
+#Merge ethnicity and race to create basic descriptives
 table(NewSMI$race)
 table(NewSMI$ethnicity)
 
