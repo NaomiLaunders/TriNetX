@@ -1,7 +1,8 @@
 #Note, other than patient file, these files are too large to load into R in one go. Therefore, convert to SQL and query from there.
 #This is best performed in an overnight run
 
-#In hindsight, it would have been better to load all tables into one database, but I don't need them to be for this analysis, and it would take a long time to go back and re run them.
+#In hindsight, it would have been better to load all tables into one database, but I don't need them to be for this analysis, 
+#It would take a long time to go back and re run them so leave them as they are for now.
 
 ####Explore the individual tables####
 rm(list = ls(all.names = TRUE))
