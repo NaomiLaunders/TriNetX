@@ -11,15 +11,7 @@ library(RSQLite)
 
 load("FILEPATH/Data/Patients.Rdata")
 
-#Note, other than patient file, these files are too large to load into R in one go. Therefore, convert to SQL and query from there.
-#This is best performed in an overnight run
-
-####Convert csv to SQLLite and query####
-#Convert to SQL
-csv_to_sqlite(csv_file="FILEPATH/diagnosis.csv", "FILEPATH/Diag.sqlite", "Diag", 
-              pre_process_size=1000, chunk_size=50000)
-
-#Then use SQL to query the database
+#Use SQL to query the database
 conn <- dbConnect(RSQLite::SQLite(),"FILEPATH/Diag.sqlite" )
 SMIQuery <- dbSendQuery(conn, "SELECT * FROM Diag WHERE code LIKE 'F2%' OR code LIKE 'F30%' OR code LIKE 'F31%' OR code LIKE '29%' OR code = '301.22'")
 SMIDiag <- dbFetch(SMIQuery)
