@@ -7,12 +7,7 @@
 ####Explore the individual tables####
 rm(list = ls(all.names = TRUE))
 ####Libraries####
-library(haven)
-library(psych)
-library(dplyr)
-library(lubridate)
 library(tidyverse)
-library(tableone)
 library(sqldf)
 library(inborutils)
 library(DBI)
@@ -45,7 +40,7 @@ csv_to_sqlite(csv_file="FILENAME/procedure.csv", "FILENAME/Procedure.sqlite", "P
               pre_process_size=1000, chunk_size=50000)
 
 conn <- dbConnect(RSQLite::SQLite(),"FILENAME/Procedure.sqlite" )
-DiagQuery <- dbSendQuery(conn, "SELECT COUNT(*), code, code_system FROM Procedure GROUP BY code, code_system")
+DiagQuery <- dbSendQuery(conn, "SELECT COUNT(code), code, code_system FROM Procedure GROUP BY code, code_system")
 Diag <- dbFetch(DiagQuery)
 dbClearResult(DiagQuery)
 write.csv(Diag, "FILENAME/AllProcedureCodes.csv", quote = FALSE, row.names = FALSE)
@@ -55,7 +50,7 @@ csv_to_sqlite(csv_file="FILENAME/Vital_signs.csv", "FILENAME/vitals.sqlite", "Vi
               pre_process_size=1000, chunk_size=50000)
 
 conn <- dbConnect(RSQLite::SQLite(),"FILENAME/vitals.sqlite" )
-DiagQuery <- dbSendQuery(conn, "SELECT COUNT(*), code, code_system FROM Vitals GROUP BY code, code_system")
+DiagQuery <- dbSendQuery(conn, "SELECT COUNT(code), code, code_system FROM Vitals GROUP BY code, code_system")
 Diag <- dbFetch(DiagQuery)
 dbClearResult(DiagQuery)
 write.csv(Diag, "FILENAME/AllVitalsCodes.csv", quote = FALSE, row.names = FALSE)
@@ -65,7 +60,7 @@ csv_to_sqlite(csv_file="FILENAME/medication_drug.csv", "FILENAME/Medical.sqlite"
               pre_process_size=1000, chunk_size=50000)
 
 conn <- dbConnect(RSQLite::SQLite(),"FILENAME/Medical.sqlite" )
-DiagQuery <- dbSendQuery(conn, "SELECT DISTINCT code_system, code FROM Drug")
+DiagQuery <- dbSendQuery(conn, "SELECT COUNT(code), code_system, code FROM Drug GROUP BY code, code_system")
 Diag <- dbFetch(DiagQuery)
 dbClearResult(DiagQuery)
 write.csv(Diag, "FILENAME/AllDrugsCodes.csv", quote = FALSE, row.names = FALSE)
@@ -74,7 +69,7 @@ csv_to_sqlite(csv_file="FILENAME/medication_ingredient.csv", "FILENAME/Medical.s
               pre_process_size=1000, chunk_size=50000)
 
 conn <- dbConnect(RSQLite::SQLite(),"FILENAME/Medical.sqlite" )
-DiagQuery <- dbSendQuery(conn, "SELECT DISTINCT code_system, code FROM Ingredient")
+DiagQuery <- dbSendQuery(conn, "SELECT COUNT(code), code_system, code FROM Ingredient GROUP BY code, code_system")
 Diag <- dbFetch(DiagQuery)
 dbClearResult(DiagQuery)
 write.csv(Diag, "FILENAME/AllIngredientsCodes.csv", quote = FALSE, row.names = FALSE)
@@ -84,7 +79,7 @@ csv_to_sqlite(csv_file="FILENAME/diagnosis.csv", "FILENAME/Diag.sqlite", "Diag",
               pre_process_size=1000, chunk_size=50000)
 
 conn <- dbConnect(RSQLite::SQLite(),"FILENAME/Diag.sqlite" )
-DiagQuery <- dbSendQuery(conn, "SELECT DISTINCT code, code_system FROM Diag")
+DiagQuery <- dbSendQuery(conn, "SELECT COUNT(code), code, code_system FROM Diag GROUP BY code, code_system")
 Diag <- dbFetch(DiagQuery)
 dbClearResult(DiagQuery)
 write.csv(Diag, "FILENAME/AllDiagCodes.csv", quote = FALSE, row.names = FALSE)
